@@ -1,0 +1,62 @@
+//@version=5
+strategy("2MA&RSI",shorttitle="MR",overlay=true)
+
+////********************************************* inputs
+BB_source = input.source(close,"Source",  group = "MA")
+BB_MA= input.string("SMA","MA Source 1" , options = ["RMA" , "SMA" , "EMA" , "HMA"] ,group = "MA")
+BB_MA1= input.string("SMA","MA Source 2" , options = ["RMA" , "SMA" , "EMA" , "HMA"]  , group = "MA")
+BB_length= input.int(20,"Length 1" ,  group = "MA")
+BB_length1=input.int(50,"Length 2", group = "MA")
+holesb = input.float(50, "rsi condition", group = "RSI")
+rsilen = input.int(14, "rsi lenght", group = "RSI")
+rsisrc = input.source(close,"Source",  group = "RSI")
+///longLossPerc = input.float(title='Long Stop Loss (%)', minval=0.0, step=0.1, defval=1, group = "StopLoss") * 0.01
+///shortLossPerc = input.float(title='Short Stop Loss (%)', minval=0.0, step=0.1, defval=1, group = "StopLoss") * 0.01
+
+///startyear = input(2021, 'start year',group = "time zone")
+///startmonth= input(10, 'start month',group = "time zone")
+////********************************************* defination
+bb_ma_function(source, length)  =>
+    if BB_MA ==  "RMA"
+        ta.rma(source, length)
+    else
+        if BB_MA ==  "SMA"
+            ta.sma(source, length)
+        else
+            if BB_MA ==  "EMA"
+                ta.ema(source, length)
+            else
+                ta.hma(source, length)
+ma=bb_ma_function(BB_source, BB_length)
+bb_ma_function1(source, length)  =>
+    if BB_MA1==  "RMA"
+        ta.rma(source, length)
+    else
+        if BB_MA1==  "SMA"
+            ta.sma(source, length)
+        else
+            if BB_MA1==  "EMA"
+                ta.ema(source, length)
+            else
+                ta.hma(source, length)
+ma1=bb_ma_function1(BB_source, BB_length1)
+////********************************************* calculation
+////tf= year >= startyear and (year > startyear or month >=startmonth)
+
+rsires = ta.rsi(rsisrc,rsilen)
+rsisell= (rsires > holesb)
+rsibuy= (rsires < holesb)
+long=ta.crossover(ma,ma1)
+short=ta.crossunder(ma,ma1)
+///longStopPrice = strategy.position_avg_price * (1 - longLossPerc)
+///shortStopPrice = strategy.position_avg_price * (1 + shortLossPerc)
+
+if (short and rsisell)
+    strategy.entry("short",strategy.short)
+
+if (long and rsibuy)
+    strategy.entry("long",strategy.long)
+
+////********************************************* plotting
+plot(ma,"short",color.red, linewidth = 3)
+plot(ma1,"long",color.green, linewidth = 3)
