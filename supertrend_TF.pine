@@ -1,0 +1,44 @@
+//@version=2
+study("ST-MultiTimeFrame", overlay=true)
+
+
+stcurrent=input(false,"Enable Current S-T",bool)
+st1h=input(false,"Enable 1H S-T",bool)
+st4h=input(false,"Enable 4H S-T",bool)
+std=input(false,"Enable Daily S-T",bool)
+
+
+
+Factor=3
+Pd=10
+
+
+Up=hl2-(Factor*atr(Pd))
+Dn=hl2+(Factor*atr(Pd))
+
+
+TrendUp=close[1]>TrendUp[1]? max(Up,TrendUp[1]) : Up
+TrendDown=close[1]<TrendDown[1]? min(Dn,TrendDown[1]) : Dn
+
+Trend = close > TrendDown[1] ? 1: close< TrendUp[1]? -1: nz(Trend[1],1)
+Tsl = Trend==1? TrendUp: TrendDown
+
+linecolor = Trend == 1 ? green : red
+
+plot(stcurrent ? Tsl : na, color = linecolor , style = line , linewidth = 1,title = "ST")
+
+Trend4h = security(tickerid,"240",Trend)
+Trend60 = security(tickerid,"60",Trend)
+TrendD = security(tickerid,"D",Trend)
+
+Tsl60 = security(tickerid,"60",Tsl)
+Tsl4h = security(tickerid,"240",Tsl)
+TslD = security(tickerid,"D",Tsl)
+
+linecolor5 = Trend4h == 1 ? green : red
+linecolor60 = Trend60 == 1 ? green : red
+linecolorD = TrendD == 1 ? green : red
+
+plot(st1h ? Tsl60 : na, color = linecolor60 , style = line, linewidth = 2,title = "ST-H")
+plot(st4h ? Tsl4h : na, color = linecolor5 , style = line , linewidth = 1,title = "ST-4H")
+plot(std ? TslD : na, color = linecolorD , style = line , linewidth = 2,title = "ST-D")
