@@ -1,0 +1,206 @@
+// This source code is subject to the terms of the Mozilla Public License 2.0 at https://mozilla.org/MPL/2.0/
+// © KNOWNASX
+
+//@version=5
+indicator("Multi MA",overlay=true, timeframe="", timeframe_gaps=true)
+///////////////////////////////////////////////////////////////////
+//current
+enable_mma = input(false, title='Enable Current TimeFrame MAs', group = "********** MA Current **********")
+enable_ma1 = input(true, title=' 20 MA', group = "********** MA Current **********")
+enable_ma2 = input(true, title=' 50 MA', group = "********** MA Current **********")
+enable_ma3 = input(true, title=' 200 MA', group = "********** MA Current **********")
+ma_type = input.string(defval='EMA', options=['SMA', 'EMA'], title='Choose MA type', group = "********** MA Current **********")
+
+//D
+Daily_mma = input(false, title='Enable Daily MAs', group = "********** MA_Daily **********")
+Daily_ma1 = input(true, title='20 MA', group = "********** MA_Daily **********")
+Daily_ma2 = input(true, title='50 MA', group = "********** MA_Daily **********")
+Daily_ma3 = input(true, title='200 MA', group = "********** MA_Daily **********")
+Daily_ma_type = input.string(title='MA Type', defval='EMA', options=['SMA', 'EMA'], group = "********** MA_Daily **********")
+//4H
+H4_mma = input(false, title='Enable 4H MAs', group = "********** MA_4H **********")
+H4_ma1 = input(true, title='20 MA', group = "********** MA_4H **********")
+H4_ma2 = input(true, title='50 MA', group = "********** MA_4H **********")
+H4_ma3 = input(true, title='200 MA', group = "********** MA_4H **********")
+H4_ma_type = input.string(title='MA Type', defval='EMA', options=['SMA', 'EMA'], group = "********** MA_4H **********")
+//custom 1
+custom_mma = input(false, title='Enable all MAs', group = "********** MA Custom **********")
+custom_ma1 = input(true, title=' 20 MA', group = "********** MA Custom **********")
+custom_ma2 = input(true, title=' 50 MA', group = "********** MA Custom **********")
+custom_ma3 = input(true, title=' 200 MA', group = "********** MA Custom **********")
+custom_ma_type = input.string(defval='EMA', options=['SMA', 'EMA'], title='Choose MA type', group = "********** MA Custom **********")
+custom_ma_tf = input.timeframe("15", "choose MA TimeFrame", group = "********** MA Custom **********")
+//custom 2
+custom1_mma = input(false, title='Enable all MAs', group = "**********MA_custom1**********")
+custom1_ma1 = input(true, title=' 20 MA', group = "**********MA_custom1**********")
+custom1_ma2 = input(true, title=' 50 MA', group = "**********MA_custom1**********")
+custom1_ma3 = input(true, title=' 200 MA', group = "**********MA_custom1**********")
+custom1_ma_type = input.string(defval='EMA', options=['SMA', 'EMA'], title='Choose MA type', group = "**********MA_custom1**********")
+custom1_ma_tf = input.timeframe("60", "choose MA TimeFrame", group = "**********MA_custom1**********")
+/////calculate MA////
+////////////////////////////////////////////////////////////////////////////////
+sma_cond = if ma_type == 'SMA'
+    true
+else
+    false
+ema_cond = if ma_type == 'EMA'
+    true
+else
+    false
+sma_cond_D = if Daily_ma_type == 'SMA'
+    true
+else
+    false
+ema_cond_D = if Daily_ma_type == 'EMA'
+    true
+else
+    false
+    
+sma_cond_4h = if H4_ma_type == 'SMA'
+    true
+else
+    false
+ema_cond_4h = if H4_ma_type == 'EMA'
+    true
+else
+    false
+sma_cond_cm = if custom_ma_type == 'SMA'
+    true
+else
+    false
+ema_cond_cm = if custom_ma_type == 'EMA'
+    true
+else
+    false
+sma_cond_cm1 = if custom1_ma_type == 'SMA'
+    true
+else
+    false
+ema_cond_cm1 = if custom1_ma_type == 'EMA'
+    true
+else
+    false
+//current
+sma_plot1_cond = sma_cond and enable_mma and enable_ma1
+sma_plot2_cond = sma_cond and enable_mma and enable_ma2
+sma_plot3_cond = sma_cond and enable_mma and enable_ma3
+ema_plot1_cond = ema_cond and enable_mma and enable_ma1
+ema_plot2_cond = ema_cond and enable_mma and enable_ma2
+ema_plot3_cond = ema_cond and enable_mma and enable_ma3
+//D
+sma_plot1_Daily = sma_cond_D and Daily_mma and Daily_ma1
+sma_plot2_Daily = sma_cond_D and Daily_mma and Daily_ma2
+sma_plot3_Daily = sma_cond_D and Daily_mma and Daily_ma3
+ema_plot1_Daily = ema_cond_D and Daily_mma and Daily_ma1
+ema_plot2_Daily = ema_cond_D and Daily_mma and Daily_ma2
+ema_plot3_Daily = ema_cond_D and Daily_mma and Daily_ma3
+//4H
+sma_plot1_4H = sma_cond_4h and H4_mma and H4_ma1
+sma_plot2_4H = sma_cond_4h and H4_mma and H4_ma2
+sma_plot3_4H = sma_cond_4h and H4_mma and H4_ma3
+ema_plot1_4H = ema_cond_4h and H4_mma and H4_ma1
+ema_plot2_4H = ema_cond_4h and H4_mma and H4_ma2
+ema_plot3_4H = ema_cond_4h and H4_mma and H4_ma3
+//custom
+sma_plot1_cm = sma_cond_cm and custom_mma and custom_ma1
+sma_plot2_cm = sma_cond_cm and custom_mma and custom_ma2
+sma_plot3_cm = sma_cond_cm and custom_mma and custom_ma3
+ema_plot1_cm = ema_cond_cm and custom_mma and custom_ma1
+ema_plot2_cm = ema_cond_cm and custom_mma and custom_ma2
+ema_plot3_cm = ema_cond_cm and custom_mma and custom_ma3
+//custom1
+sma_plot1_cm1 = sma_cond_cm1 and custom1_mma and custom1_ma1
+sma_plot2_cm1 = sma_cond_cm1 and custom1_mma and custom1_ma2
+sma_plot3_cm1 = sma_cond_cm1 and custom1_mma and custom1_ma3
+ema_plot1_cm1 = ema_cond_cm1 and custom1_mma and custom1_ma1
+ema_plot2_cm1 = ema_cond_cm1 and custom1_mma and custom1_ma2
+ema_plot3_cm1 = ema_cond_cm1 and custom1_mma and custom1_ma3
+//
+out1a = ta.sma(close, 20)
+out2a = ta.sma(close, 50)
+out3a = ta.sma(close, 200)
+out1b = ta.ema(close, 20)
+out2b = ta.ema(close, 50)
+out3b = ta.ema(close, 200)
+// Simple MA ///////////////////////////////////////////////////////////////////
+//D
+sMA1_D = request.security(syminfo.tickerid, "D", out1a)  
+sMA2_D = request.security(syminfo.tickerid, "D",out2a)  
+sMA3_D = request.security(syminfo.tickerid, "D", out3a) 
+//4H
+sMA1_4h = request.security(syminfo.tickerid, "240", out1a)  
+sMA2_4h = request.security(syminfo.tickerid, "240", out2a)  
+sMA3_4h = request.security(syminfo.tickerid, "240", out3a) 
+//custom
+sMA1_cm = request.security(syminfo.tickerid, custom_ma_tf, out1a)  
+sMA2_cm = request.security(syminfo.tickerid, custom_ma_tf,out2a)  
+sMA3_cm = request.security(syminfo.tickerid, custom_ma_tf, out3a) 
+//custom1
+sMA1_cm1 = request.security(syminfo.tickerid, custom1_ma_tf, out1a)  
+sMA2_cm1 = request.security(syminfo.tickerid, custom1_ma_tf,out2a)  
+sMA3_cm1 = request.security(syminfo.tickerid, custom1_ma_tf, out3a) 
+// Exponential MA //////////////////////////////////////////////////////////////
+//D
+eMA1_D = request.security(syminfo.tickerid, "D", out1b)  
+eMA2_D = request.security(syminfo.tickerid, "D",out2b)  
+eMA3_D = request.security(syminfo.tickerid, "D", out3b) 
+//4H
+eMA1_4h = request.security(syminfo.tickerid, "240", out1b)  
+eMA2_4h = request.security(syminfo.tickerid, "240", out2b)  
+eMA3_4h = request.security(syminfo.tickerid, "240", out3b) 
+//custom
+eMA1_cm = request.security(syminfo.tickerid, custom_ma_tf, out1b)  
+eMA2_cm = request.security(syminfo.tickerid, custom_ma_tf,out2b)  
+eMA3_cm = request.security(syminfo.tickerid, custom_ma_tf, out3b) 
+//custom1
+eMA1_cm1 = request.security(syminfo.tickerid, custom1_ma_tf, out1b)  
+eMA2_cm1 = request.security(syminfo.tickerid, custom1_ma_tf,out2b)  
+eMA3_cm1 = request.security(syminfo.tickerid, custom1_ma_tf, out3b) 
+
+//Simple MA plots //////////////////////////////////////////////////////////////
+//current
+plot(sma_plot1_cond ? out1a : na, color=color.green, title="SMA1", linewidth=2)
+plot(sma_plot2_cond ? out2a : na, color=color.red, title="SMA2", linewidth=2)
+plot(sma_plot3_cond ? out3a : na, color=color.blue, title="SMA3", linewidth=2)
+//D
+plot(sma_plot1_Daily ? sMA1_D : na, color=color.green, title="SMA1", linewidth=2)
+plot(sma_plot2_Daily ? sMA2_D : na, color=color.red, title="SMA2", linewidth=2)
+plot(sma_plot3_Daily ? sMA3_D : na, color=color.blue, title="SMA3", linewidth=2)
+//4H
+plot(sma_plot1_4H ? sMA1_4h : na, color=color.green, title="SMA1", linewidth=2)
+plot(sma_plot2_4H ? sMA2_4h : na, color=color.red, title="SMA2", linewidth=2)
+plot(sma_plot3_4H ? sMA3_4h : na, color=color.blue, title="SMA3", linewidth=2)
+//custom
+plot(sma_plot1_cm ? sMA1_cm : na, color=color.green, title="SMA1", linewidth=2)
+plot(sma_plot2_cm ? sMA2_cm : na, color=color.red, title="SMA2", linewidth=2)
+plot(sma_plot3_cm ? sMA3_cm : na, color=color.blue, title="SMA3", linewidth=2)
+//custom1
+plot(sma_plot1_cm1 ? sMA1_cm1 : na, color=color.green, title="SMA1", linewidth=2)
+plot(sma_plot2_cm1 ? sMA2_cm1 : na, color=color.red, title="SMA2", linewidth=2)
+plot(sma_plot3_cm1 ? sMA3_cm1 : na, color=color.blue, title="SMA3", linewidth=2)
+
+//Exponential MA plots /////////////////////////////////////////////////////////
+//current 
+plot(ema_plot1_cond ? out1b : na, color=color.green, title="EMA1", linewidth=2)
+plot(ema_plot2_cond ? out2b : na, color=color.red, title="EMA2", linewidth=2)
+plot(ema_plot3_cond ? out3b : na, color=color.blue, title="EMA3", linewidth=2)
+
+//D
+plot(ema_plot1_Daily ? eMA1_D : na, color=color.green, title="EMA1", linewidth=2)
+plot(ema_plot2_Daily ? eMA2_D : na, color=color.red, title="EMA2", linewidth=2)
+plot(ema_plot3_Daily ? eMA3_D : na, color=color.blue, title="EMA3", linewidth=2)
+//4H
+plot(ema_plot1_4H ? eMA1_4h : na, color=color.green, title="SMA1", linewidth=2)
+plot(ema_plot2_4H ? eMA2_4h : na, color=color.red, title="SMA2", linewidth=2)
+plot(ema_plot3_4H ? eMA3_4h : na, color=color.blue, title="SMA3", linewidth=2)
+//custom
+plot(ema_plot1_cm ? eMA1_cm : na, color=color.green, title="SMA1", linewidth=2)
+plot(ema_plot2_cm ? eMA2_cm : na, color=color.red, title="SMA2", linewidth=2)
+plot(ema_plot3_cm ? eMA3_cm : na, color=color.blue, title="SMA3", linewidth=2)
+//custom1
+plot(ema_plot1_cm1 ? eMA1_cm1 : na, color=color.green, title="SMA1", linewidth=2)
+plot(ema_plot2_cm1 ? eMA2_cm1 : na, color=color.red, title="SMA2", linewidth=2)
+plot(ema_plot3_cm1 ? eMA3_cm1 : na, color=color.blue, title="SMA3", linewidth=2)
+
+
+
