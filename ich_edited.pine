@@ -1,0 +1,65 @@
+//@version=5
+indicator('ICHI', overlay=true)
+//inputs
+tk_20 = input.bool(false, 'Enable TenkanSen 20', group='ICH')
+cshs_60 = input.bool(false, 'Enable ChikouSpan 60', group='ICH')
+cshs_29 = input.bool(false, 'Enable ChikouSpan 26', group='ICH')
+cloud = input.bool(false, 'Enable default cloud', group='ICH')
+cloud1 = input.bool(false, 'Enable 20,60,60,120,60 Cloud', group='ICH')
+upe = input.bool(false,'Enable Upper DC',group='DC')
+lowe = input.bool(false,'Enable Lower DC',group='DC')
+//def 
+uplow = 20
+TKlength = 9
+KJlength = 26
+CSHSlength = 26
+SBlength = 52
+SAlength = 26
+TK = math.avg(ta.lowest(TKlength), ta.highest(TKlength))
+KJ = math.avg(ta.lowest(KJlength), ta.highest(KJlength))
+CS = close
+SB = math.avg(ta.lowest(SBlength), ta.highest(SBlength))
+SA = math.avg(TK, KJ)
+lower = ta.lowest(uplow)
+upper = ta.highest(uplow)
+//costum
+TK1length = 20
+KJ1length = 60
+CSHS1length = 60
+SB1length = 120
+SA1length = 60
+TK1 = math.avg(ta.lowest(TK1length), ta.highest(TK1length))
+KJ1 = math.avg(ta.lowest(KJ1length), ta.highest(KJ1length))
+CS1 = close
+SB1 = math.avg(ta.lowest(SB1length), ta.highest(SB1length))
+SA1 = math.avg(TK1, KJ1)
+//plot
+plot(tk_20 ? TK1 : na, linewidth=2, color=color.new(color.yellow, 0), title='TenkanSen 20')
+plot(cshs_60 ? CS1 : na, offset=-CSHS1length, linewidth=2, color=color.new(#DDA0DD, 0), title='ChikouSpan 60')
+plot(cshs_29 ? CS : na, offset=-CSHSlength, linewidth=2, color=color.new(color.orange, 0), title='ChikouSpan 26')
+plot(upe ? upper : na, linewidth=2,color=color.new(color.lime,0),title='DC Upper')
+plot(lowe ? lower : na, linewidth=2,color=color.new(color.olive,0),title='DC Lower')
+SenkouA1 = plot(SA1, offset=CSHS1length, linewidth=1, color=color.new(color.green, 0), title='SenkouSpanA1', display=display.none, editable=false)
+SenkouB1 = plot(SB1, offset=CSHS1length, linewidth=1, color=color.new(color.purple, 0), title='SenkouSpanB1', display=display.none, editable=false)
+longFillColor1 = cloud1 ? SA1 > SB1 ? color.green : na : na
+shortFillColor1 = cloud1 ? SA < SB1 ? color.red : na : na
+fill(SenkouA1, SenkouB1, title='cloud', color=longFillColor1, transp=90)
+fill(SenkouA1, SenkouB1, title='cloud', color=shortFillColor1, transp=90)
+
+SenkouA = plot(SA, offset=CSHSlength, linewidth=1, color=color.new(color.green, 0), title='SenkouSpanA', display=display.none, editable=false)
+SenkouB = plot(SB, offset=CSHSlength, linewidth=1, color=color.new(color.purple, 0), title='SenkouSpanB', display=display.none, editable=false)
+longFillColor = cloud ? SA > SB ? color.green : na : na
+shortFillColor = cloud ? SA < SB ? color.red : na : na
+fill(SenkouA, SenkouB, title='cloud', color=longFillColor, transp=90)
+fill(SenkouA, SenkouB, title='cloud', color=shortFillColor, transp=90)
+
+
+
+
+
+
+
+
+
+
+
