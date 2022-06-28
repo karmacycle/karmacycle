@@ -1,0 +1,145 @@
+//@version=5
+
+indicator(title='10 in 1 MA', shorttitle=' 10MAs', overlay=true)
+
+bool plot_ma_1 = input.bool(false, '', inline='MA 1')
+tf_ma_1 = input.string('',title='', inline='MA 1')
+string ma_1_type = input.string(defval='EMA', title='MA 1', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 1')
+int ma_1_val = input.int(1, '', minval=1, inline='MA 1')
+ma_1_src = input.source(defval=close, title='', inline='MA 1')
+color ma_1_colour = input.color(color.red, '', inline='MA 1')
+off_ma_1 = input(0, '', inline='MA 1')
+
+
+
+bool plot_ma_2 = input.bool(false, '', inline='MA 2')
+tf_ma_2 = input.string('',title='', inline='MA 2')
+string ma_2_type = input.string(defval='SMA', title='MA 2 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 2')
+int ma_2_val = input.int(1, '', minval=1, inline='MA 2')
+ma_2_src = input.source(defval=close, title='', inline='MA 2')
+color ma_2_colour = input.color(color.black, '', inline='MA 2')
+off_ma_2 = input(0, '', inline='MA 2')
+
+
+
+bool plot_ma_3 = input.bool(false, '', inline='MA 3')
+tf_ma_3 = input.string('',title='', inline='MA 3')
+string ma_3_type = input.string(defval='SMA', title='MA 3 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 3')
+int ma_3_val = input.int(1, '', minval=1, inline='MA 3')
+ma_3_src = input.source(defval=close, title='', inline='MA 3')
+color ma_3_colour = input.color(color.black, '', inline='MA 3')
+off_ma_3 = input(0, '', inline='MA 3')
+
+
+bool plot_ma_4 = input.bool(false, '', inline='MA 4')
+tf_ma_4 = input.string('',title='', inline='MA 4')
+string ma_4_type = input.string(defval='SMA', title='MA 4 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 4')
+int ma_4_val = input.int(1, '', minval=1, inline='MA 4')
+ma_4_src = input.source(defval=close, title='', inline='MA 4')
+color ma_4_colour = input.color(color.black, '', inline='MA 4')
+off_ma_4 = input(0, '', inline='MA 4')
+
+
+
+bool plot_ma_5 = input.bool(false, '', inline='MA 5')
+tf_ma_5 = input.string('',title='', inline='MA 5')
+string ma_5_type = input.string(defval='SMA', title='MA 5 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 5')
+int ma_5_val = input.int(1, '', minval=1, inline='MA 5')
+ma_5_src = input.source(defval=close, title='', inline='MA 5')
+color ma_5_colour = input.color(color.black, '', inline='MA 5')
+off_ma_5 = input(0, '', inline='MA 5')
+
+
+
+bool plot_ma_6 = input.bool(false, '', inline='MA 6')
+tf_ma_6 = input.string('',title='', inline='MA 6')
+string ma_6_type = input.string(defval='SMA', title='MA 6 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 6')
+int ma_6_val = input.int(1, '', minval=1, inline='MA 6')
+ma_6_src = input.source(defval=close, title='', inline='MA 6')
+color ma_6_colour = input.color(color.black, '', inline='MA 6')
+off_ma_6 = input(0, '',  inline='MA 6')
+
+
+
+bool plot_ma_7 = input.bool(false, '', inline='MA 7')
+tf_ma_7 = input.string('',title='', inline='MA 7')
+string ma_7_type = input.string(defval='SMA', title='MA 7 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 7')
+int ma_7_val = input.int(1, '', minval=1, inline='MA 7')
+ma_7_src = input.source(defval=close, title='', inline='MA 7')
+color ma_7_colour = input.color(color.black, '', inline='MA 7')
+off_ma_7 = input(0, '', inline='MA 7')
+
+
+
+bool plot_ma_8 = input.bool(false, '', inline='MA 8')
+tf_ma_8 = input.string('',title='', inline='MA 8')
+string ma_8_type = input.string(defval='SMA', title='MA 8', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 8')
+int ma_8_val = input.int(1, '', minval=1, inline='MA 8')
+ma_8_src = input.source(defval=close, title='', inline='MA 8')
+color ma_8_colour = input.color(color.black, '', inline='MA 8')
+off_ma_8 = input(0, '', inline='MA 8')
+
+
+
+bool plot_ma_9 = input.bool(false, '', inline='MA 9')
+tf_ma_9 = input.string('',title='', inline='MA 9')
+string ma_9_type = input.string(defval='SMA', title='MA 9 ', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 9')
+int ma_9_val = input.int(1, '', minval=1, inline='MA 9')
+ma_9_src = input.source(defval=close, title='', inline='MA 9')
+color ma_9_colour = input.color(color.black, '', inline='MA 9')
+off_ma_9 = input(0, '', inline='MA 9')
+
+
+
+bool plot_ma_10 = input.bool(false, '', inline='MA 10')
+tf_ma_10 = input.string('',title='', inline='MA 10')
+string ma_10_type = input.string(defval='SMA', title='MA 10', options=['RMA', 'SMA', 'EMA', 'WMA','HMA','VWMA'], inline='MA 10')
+int ma_10_val = input.int(1, '', minval=1, inline='MA 10')
+ma_10_src = input.source(defval=close, title='', inline='MA 10')
+color ma_10_colour = input.color(color.black, '', inline='MA 10')
+off_ma_10 = input(0, '', inline='MA 10')
+
+
+
+ma_function(source, length, type) =>
+
+
+    if type == 'RMA'
+        ta.rma(source, length)
+    else if type == 'SMA'
+        ta.sma(source, length)
+    else if type == 'EMA'
+        ta.ema(source, length)
+    else if type == 'WMA'
+        ta.wma(source, length)
+    else if type == 'HMA'
+        ta.hma(source, length)
+    else 
+        ta.vwma(source, length)
+    
+    
+
+
+ma_1 = request.security(syminfo.tickerid,tf_ma_1,ma_function(ma_1_src, ma_1_val, ma_1_type),barmerge.gaps_on)
+ma_2 = request.security(syminfo.tickerid,tf_ma_2,ma_function(ma_2_src, ma_2_val, ma_2_type),barmerge.gaps_on)
+ma_3 = request.security(syminfo.tickerid,tf_ma_3,ma_function(ma_3_src, ma_3_val, ma_3_type),barmerge.gaps_on)
+ma_4 = request.security(syminfo.tickerid,tf_ma_4,ma_function(ma_4_src, ma_4_val, ma_4_type),barmerge.gaps_on)
+ma_5 = request.security(syminfo.tickerid,tf_ma_5,ma_function(ma_5_src, ma_5_val, ma_5_type),barmerge.gaps_on)
+ma_6 = request.security(syminfo.tickerid,tf_ma_6,ma_function(ma_6_src, ma_6_val, ma_6_type),barmerge.gaps_on)
+ma_7 = request.security(syminfo.tickerid,tf_ma_7,ma_function(ma_7_src, ma_7_val, ma_7_type),barmerge.gaps_on)
+ma_8 = request.security(syminfo.tickerid,tf_ma_8,ma_function(ma_8_src, ma_8_val, ma_8_type),barmerge.gaps_on)
+ma_9 = request.security(syminfo.tickerid,tf_ma_9,ma_function(ma_9_src, ma_9_val, ma_9_type),barmerge.gaps_on)
+ma_10 = request.security(syminfo.tickerid,tf_ma_10,ma_function(ma_10_src, ma_10_val, ma_10_type),barmerge.gaps_on)
+
+
+plot(plot_ma_1 ? ma_1 : na, 'MA 1', ma_1_colour,offset = off_ma_1)
+plot(plot_ma_2 ? ma_2 : na, 'MA 2', ma_2_colour,offset = off_ma_2)
+plot(plot_ma_3 ? ma_3 : na, 'MA 3', ma_3_colour,offset = off_ma_3)
+plot(plot_ma_4 ? ma_4 : na, 'MA 4', ma_4_colour,offset = off_ma_4)
+plot(plot_ma_5 ? ma_5 : na, 'MA 5', ma_5_colour,offset = off_ma_5)
+plot(plot_ma_6 ? ma_6 : na, 'MA 6', ma_6_colour,offset = off_ma_6)
+plot(plot_ma_7 ? ma_7 : na, 'MA 7', ma_7_colour,offset = off_ma_7)
+plot(plot_ma_8 ? ma_8 : na, 'MA 8', ma_8_colour,offset = off_ma_8)
+plot(plot_ma_9 ? ma_9 : na, 'MA 9', ma_9_colour,offset = off_ma_9)
+plot(plot_ma_10 ? ma_10 : na, 'MA 10', ma_10_colour,offset = off_ma_10)
+
